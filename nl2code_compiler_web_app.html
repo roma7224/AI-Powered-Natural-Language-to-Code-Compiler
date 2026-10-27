@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NL2Code — AI-Powered Natural Language Compiler</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--panel2:#0e1628;--line:#263451;--text:#edf3ff;--muted:#9aabc8;--accent:#7c6cff;--cyan:#55d6e8;--green:#4ade80;--red:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#1b2350 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;border-bottom:1px solid #ffffff12;background:#0b1020cc;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{display:flex;gap:12px;align-items:center;font-weight:800;font-size:20px;letter-spacing:-.5px}.logo{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#07101d;font-weight:900;font-size:17px}.brand span{color:var(--cyan)}.badge{font-size:12px;color:#c5caff;border:1px solid #5c5ba8;background:#24244b;padding:6px 10px;border-radius:99px}
+main{max-width:1200px;margin:auto;padding:36px 22px 70px}.hero{text-align:center;margin:12px auto 32px;max-width:800px}.eyebrow{color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:11px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:12px 0;background:linear-gradient(100deg,#fff 20%,#b9b5ff 58%,#63e4ef);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:16px;max-width:650px;margin:0 auto}
+.workspace{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:stretch}.card{background:linear-gradient(180deg,#141e34,#10182a);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 50px #0002}.card-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.card-head h2{font-size:15px;margin:0}.step{font-size:11px;color:var(--muted);background:#202b43;padding:5px 9px;border-radius:7px}.card-body{padding:20px}
+label{display:block;font-size:12px;font-weight:700;color:#b8c5df;margin-bottom:9px}.select-wrap{display:flex;gap:10px;margin-bottom:18px}select,button{font:inherit}select{background:#0b1324;border:1px solid #334360;color:var(--text);border-radius:10px;padding:11px 12px;outline:none}#language{width:100%}textarea{width:100%;min-height:195px;resize:vertical;background:#0b1324;border:1px solid #334360;border-radius:12px;padding:15px;color:var(--text);font:14px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c6cff22}.examples{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}.chip{border:1px solid #354260;background:#18233a;color:#c6d3ed;border-radius:99px;padding:7px 10px;font-size:11px;cursor:pointer}.chip:hover{border-color:var(--cyan);color:#fff}.primary{width:100%;border:0;border-radius:11px;padding:13px 16px;background:linear-gradient(100deg,#7867ff,#4cbfd7);color:#07101d;font-weight:800;cursor:pointer;box-shadow:0 8px 22px #5f6cff30}.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}.hint{font-size:11px;color:#7f91b0;margin:12px 0 0}
+.output-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.language-tag{font-size:11px;color:var(--green);display:flex;gap:7px;align-items:center}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}.actions{display:flex;gap:7px}.small-btn{font-size:11px;color:#cbd7ef;border:1px solid #354260;background:#172239;border-radius:8px;padding:7px 10px;cursor:pointer}.small-btn:hover{border-color:var(--cyan)}pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;background:#080f1d;color:#c8e1ff;min-height:270px;padding:20px;font:13px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto}.placeholder{color:#7385a6}.pipeline{margin-top:18px}.pipeline-title{font-size:12px;font-weight:700;color:#c4d1e9;margin:0 0 12px}.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stage{padding:12px 8px;text-align:center;border:1px solid #293954;background:#0d1628;border-radius:11px;min-width:0}.stage .icon{font-size:17px}.stage strong{display:block;font-size:11px;margin:5px 0 2px}.stage span{display:block;color:#8193b1;font-size:10px}.stage.done{border-color:#397c76;background:#102b31}.stage.done strong{color:#74e7c3}.status{margin-top:12px;border-radius:10px;padding:10px 12px;background:#111e31;color:#9eb0ce;font-size:11px}.status b{color:var(--cyan)}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}.feature{padding:18px;border:1px solid var(--line);border-radius:14px;background:#10182a}.feature .ficon{font-size:20px}.feature h3{font-size:13px;margin:9px 0 5px}.feature p{font-size:12px;color:var(--muted);margin:0}.footer{text-align:center;color:#687b9b;font-size:11px;margin-top:32px}.notice{margin-top:15px;color:#e8c98c;font-size:11px;line-height:1.5}
+@media(max-width:800px){.workspace{grid-template-columns:1fr}.features{grid-template-columns:1fr}.stages{grid-template-columns:repeat(2,1fr)}header{padding:15px 20px}.badge{display:none}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">&lt;/&gt;</div><div>NL2<span>Code</span></div></div><div class="badge">COMPILER CONSTRUCTION PROJECT</div></header>
+<main>
+<section class="hero"><div class="eyebrow">Natural Language → Source Code</div><h1>Turn your ideas into code.</h1><p>Describe a simple programming task in everyday English. NL2Code converts it into source code and demonstrates the compiler pipeline.</p></section>
+<section class="workspace">
+<div class="card">
+ <div class="card-head"><h2>✦ Describe your program</h2><span class="step">STEP 01</span></div>
+ <div class="card-body">
+  <label for="language">TARGET PROGRAMMING LANGUAGE</label>
+  <div class="select-wrap"><select id="language"><option value="python">Python</option><option value="cpp">C++</option><option value="java">Java</option></select></div>
+  <label for="prompt">NATURAL LANGUAGE INSTRUCTION</label>
+  <textarea id="prompt" placeholder="Example: Write a program to check whether a number is even or odd.">Write a program to check whether a number is even or odd.</textarea>
+  <div class="examples"><button class="chip" data-prompt="Write a program to check whether a number is even or odd.">Even or odd</button><button class="chip" data-prompt="Write a program to find the factorial of a number.">Factorial</button><button class="chip" data-prompt="Write a program to find the largest of three numbers.">Largest of 3</button><button class="chip" data-prompt="Write a program to check whether a number is prime.">Prime number</button><button class="chip" data-prompt="Write a program to calculate the sum of numbers from 1 to n.">Sum from 1 to n</button></div>
+  <button class="primary" id="generate">⚡ Generate code & run pipeline</button>
+  <p class="hint">Demo mode · Uses rule-based intent matching in your browser; no API key required.</p>
+ </div>
+</div>
+<div class="card">
+ <div class="card-head"><div class="output-top"><h2>Generated source code</h2><span class="language-tag"><i class="dot"></i><span id="langLabel">PYTHON</span></span></div><div class="actions"><button class="small-btn" id="copy">Copy code</button><button class="small-btn" id="download">Download</button></div></div>
+ <pre id="code"><span class="placeholder">// Your generated code will appear here.
+// Enter a task and click “Generate code”.</span></pre>
+ <div class="card-body pipeline">
+  <p class="pipeline-title">COMPILER PIPELINE</p>
+  <div class="stages" id="stages">
+   <div class="stage"><div class="icon">⌕</div><strong>Lexical Analysis</strong><span>Tokenization</span></div>
+   <div class="stage"><div class="icon">⌘</div><strong>Syntax Analysis</strong><span>Structure check</span></div>
+   <div class="stage"><div class="icon">◇</div><strong>Intermediate Code</strong><span>IR generation</span></div>
+   <div class="stage"><div class="icon">⚙</div><strong>Code Generation</strong><span>Target output</span></div>
+  </div>
+  <div class="status" id="status"><b>Status:</b> Waiting for input. The pipeline stages will light up after code generation.</div>
+ </div>
+</div>
+</section>
+<section class="features">
+ <div class="feature"><div class="ficon">🗣️</div><h3>Natural language input</h3><p>Accepts a plain-English description of a simple programming problem.</p></div>
+ <div class="feature"><div class="ficon">🔄</div><h3>Compiler pipeline demo</h3><p>Visualizes tokenization, syntax analysis, intermediate representation and target code generation.</p></div>
+ <div class="feature"><div class="ficon">💻</div><h3>Multi-language output</h3><p>Generates example source code in Python, C++ or Java for supported tasks.</p></div>
+</section>
+<p class="notice">Academic prototype note: this front-end demonstrates a small set of supported patterns. It is not a full AI model or a production compiler, and it does not execute the generated program. For a full project, connect an NLP/LLM backend and a secure code-execution service.</p>
+<div class="footer">NL2Code · Compiler Construction Mini Project · Built as a browser-based prototype</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let generated='';
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{$('prompt').value=b.dataset.prompt;$('prompt').focus()}));
+function detectTask(s){
+ const t=s.toLowerCase();
+ if(t.includes('factorial'))return 'factorial';
+ if((t.includes('even')&&t.includes('odd'))||t.includes('even or odd'))return 'even';
+ if(t.includes('largest')||t.includes('greatest')||t.includes('maximum of three'))return 'largest';
+ if(t.includes('prime'))return 'prime';
+ if(t.includes('sum')&&(t.includes('1 to n')||t.includes('first n')||t.includes('numbers from 1')))return 'sum';
+ if(t.includes('hello'))return 'hello';
+ return 'unknown';
+}
+const snippets={
+ python:{
+ even:`n = int(input("Enter a number: "))\nif n % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")`,
+ factorial:`n = int(input("Enter a non-negative integer: "))\nresult = 1\nfor i in range(1, n + 1):\n    result *= i\nprint("Factorial:", result)`,
+ largest:`a = int(input("Enter first number: "))\nb = int(input("Enter second number: "))\nc = int(input("Enter third number: "))\nprint("Largest:", max(a, b, c))`,
+ prime:`n = int(input("Enter an integer: "))\nif n < 2:\n    print("Not prime")\nelse:\n    is_prime = True\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            is_prime = False\n            break\n    print("Prime" if is_prime else "Not prime")`,
+ sum:`n = int(input("Enter n: "))\ntotal = sum(range(1, n + 1))\nprint("Sum:", total)`,
+ hello:`print("Hello, World!")`},
+ cpp:{
+ even:`#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cout << "Enter a number: ";\n    cin >> n;\n    if (n % 2 == 0) cout << "Even";\n    else cout << "Odd";\n    return 0;\n}`,
+ factorial:`#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    long long result = 1;\n    cout << "Enter a non-negative integer: ";\n    cin >> n;\n    for (int i = 1; i <= n; i++) result *= i;\n    cout << "Factorial: " << result;\n    return 0;\n}`,
+ largest:`#include <iostream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int a, b, c;\n    cout << "Enter three numbers: ";\n    cin >> a >> b >> c;\n    cout << "Largest: " << max(a, max(b, c));\n    return 0;\n}`,
+ prime:`#include <iostream>\nusing namespace std;\n\nint main() {\n    int n; bool prime = true;\n    cout << "Enter an integer: "; cin >> n;\n    if (n < 2) prime = false;\n    for (int i = 2; i * i <= n; i++)\n        if (n % i == 0) { prime = false; break; }\n    cout << (prime ? "Prime" : "Not prime");\n    return 0;\n}`,
+ sum:`#include <iostream>\nusing namespace std;\n\nint main() {\n    int n; long long total = 0;\n    cout << "Enter n: "; cin >> n;\n    for (int i = 1; i <= n; i++) total += i;\n    cout << "Sum: " << total;\n    return 0;\n}`,
+ hello:`#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!";\n    return 0;\n}`},
+ java:{
+ even:`import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Enter a number: ");\n        int n = sc.nextInt();\n        System.out.println(n % 2 == 0 ? "Even" : "Odd");\n        sc.close();\n    }\n}`,
+ factorial:`import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Enter a non-negative integer: ");\n        int n = sc.nextInt();\n        long result = 1;\n        for (int i = 1; i <= n; i++) result *= i;\n        System.out.println("Factorial: " + result);\n        sc.close();\n    }\n}`,
+ largest:`import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Enter three numbers: ");\n        int a = sc.nextInt(), b = sc.nextInt(), c = sc.nextInt();\n        System.out.println("Largest: " + Math.max(a, Math.max(b, c)));\n        sc.close();\n    }\n}`,
+ prime:`import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Enter an integer: ");\n        int n = sc.nextInt();\n        boolean prime = n >= 2;\n        for (int i = 2; i * i <= n; i++)\n            if (n % i == 0) { prime = false; break; }\n        System.out.println(prime ? "Prime" : "Not prime");\n        sc.close();\n    }\n}`,
+ sum:`import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Enter n: ");\n        int n = sc.nextInt();\n        long total = (long)n * (n + 1) / 2;\n        System.out.println("Sum: " + total);\n        sc.close();\n    }\n}`,
+ hello:`public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}`}
+};
+function generate(){
+ const prompt=$('prompt').value.trim(),lang=$('language').value;
+ if(!prompt){$('status').innerHTML='<b>Status:</b> Please enter a natural language instruction first.';return}
+ const task=detectTask(prompt);let code;
+ if(task==='unknown'){
+  code=lang==='python'?'# Could not map this instruction to a supported template yet.\n# Try: even or odd, factorial, largest of three, prime, sum from 1 to n.\n':lang==='cpp'?'// Could not map this instruction to a supported template yet.\n// Try: even or odd, factorial, largest of three, prime, sum from 1 to n.\n':'// Could not map this instruction to a supported template yet.\n// Try: even or odd, factorial, largest of three, prime, sum from 1 to n.\n';
+ }else code=snippets[lang][task];
+ generated=code;$('code').textContent=code;$('langLabel').textContent=lang.toUpperCase();
+ document.querySelectorAll('.stage').forEach((s,i)=>{s.classList.remove('done');setTimeout(()=>s.classList.add('done'),120+i*220)});
+ const names={even:'even/odd check',factorial:'factorial calculation',largest:'largest of three numbers',prime:'prime number check',sum:'sum from 1 to n',hello:'Hello World'};
+ $('status').innerHTML=task==='unknown'?'<b>Status:</b> No matching template found. Try one of the example prompts above.':'<b>Status:</b> Pipeline completed for <b>'+names[task]+'</b>. Demo matched the instruction to a predefined template; syntax and semantics are not fully validated.';
+}
+$('generate').addEventListener('click',generate);
+$('language').addEventListener('change',()=>{if(generated)generate()});
+$('copy').addEventListener('click',async()=>{if(!generated){$('status').innerHTML='<b>Status:</b> Generate code first.';return}try{await navigator.clipboard.writeText(generated);$('copy').textContent='Copied!';setTimeout(()=>$('copy').textContent='Copy code',1300)}catch(e){$('status').innerHTML='<b>Status:</b> Select the code and copy it manually.'}});
+$('download').addEventListener('click',()=>{if(!generated){$('status').innerHTML='<b>Status:</b> Generate code first.';return}const ext={python:'py',cpp:'cpp',java:'java'}[$('language').value];const blob=new Blob([generated],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=$('language').value==='java'?'Main.java':'generated_code.'+ext;a.click();URL.revokeObjectURL(a.href)});
+generate();
+</script>
+</body>
+</html>
